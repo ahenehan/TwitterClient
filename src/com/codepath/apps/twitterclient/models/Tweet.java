@@ -7,39 +7,49 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Tweet extends BaseModel implements Serializable{
+public class Tweet implements Serializable{
 	private static final long serialVersionUID = 4106784198585261708L;
-	private User user;
+	private boolean mFavorited;
+	private boolean mRetweeted;
+	private long mId;
+	private String mBody;
+	private String mTimeCreated;
+	private User mUser;
+	
 	
 	public User getUser() {
-		return user;
+		return mUser;
 	}
 	
 	public String getBody() {
-		return getString("text");
+		return mBody;
 	}
 	
 	public long getId() {
-		return getLong("id");
+		return mId;
 	}
 	
 	public boolean isFavorited() {
-		return getBoolean("favorited");
+		return mFavorited;
 	}
 	
 	public boolean isRetweeted() {
-		return getBoolean("retweeted");
+		return mRetweeted;
 	}
 	
 	public String getTimeCreated() {
-		return getString("created_at");
+		return mTimeCreated;
 	}
 	
 	public static Tweet fromJson(JSONObject jsonObject) {
 		Tweet tweet = new Tweet();
 		try {
-			tweet.jsonObject = jsonObject;
-			tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+			tweet.mBody = jsonObject.getString("text");
+			tweet.mId = jsonObject.getLong("id");
+			tweet.mFavorited = jsonObject.getBoolean("favorited");
+			tweet.mRetweeted = jsonObject.getBoolean("retweeted");
+			tweet.mTimeCreated = jsonObject.getString("created_at");
+			tweet.mUser = User.fromJson(jsonObject.getJSONObject("user"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;

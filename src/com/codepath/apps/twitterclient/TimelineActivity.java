@@ -3,11 +3,8 @@ package com.codepath.apps.twitterclient;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -90,7 +87,7 @@ public class TimelineActivity extends Activity {
 	public void onComposeTweet(MenuItem mi) {
 		Toast.makeText(this, getString(R.string.compose_tweet), Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(this, ComposeTweetActivity.class);
-		i.putExtra("user", currentUser.getJSONString());
+		i.putExtra("user", currentUser);
 		startActivityForResult(i, REQUEST_CODE);
 	}
 	
@@ -98,18 +95,10 @@ public class TimelineActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
     		Toast.makeText(getApplicationContext(), "Tweet posted", Toast.LENGTH_SHORT).show();
-    		String text = data.getExtras().getString("tweet");
-    		JSONObject jsonObject;
-			try {
-				jsonObject = new JSONObject(text);
-				Tweet newTweet = Tweet.fromJson(jsonObject);
-				tweets.add(0, newTweet);
-				tweetsAdapter.insert(newTweet, 0);
-				tweetsAdapter.notifyDataSetChanged();
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-    		
+    		Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
+			tweets.add(0, tweet);
+			tweetsAdapter.insert(tweet, 0);
+			tweetsAdapter.notifyDataSetChanged();
     	}
     }
 	

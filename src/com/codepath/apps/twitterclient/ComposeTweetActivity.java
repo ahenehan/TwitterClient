@@ -1,6 +1,5 @@
 package com.codepath.apps.twitterclient;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.models.Tweet;
 import com.codepath.apps.twitterclient.models.User;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -32,19 +30,11 @@ public class ComposeTweetActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_compose_tweet);
-		String text = getIntent().getStringExtra("user");
-		JSONObject jsonObject;
-		try {
-			jsonObject = new JSONObject(text);
-			currentUser = User.fromJson(jsonObject);
-			ImageView image = (ImageView) findViewById(R.id.ivUserProfile);
-			TextView userName = (TextView) findViewById(R.id.tvUser);
-			ImageLoader.getInstance().displayImage(currentUser.getProfileImageUrl(), image);
-			userName.setText("@" + currentUser.getScreenName());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		currentUser = (User) getIntent().getSerializableExtra("user");
+		ImageView image = (ImageView) findViewById(R.id.ivUserProfile);
+		TextView userName = (TextView) findViewById(R.id.tvUser);
+		ImageLoader.getInstance().displayImage(currentUser.getProfileImageUrl(), image);
+		userName.setText("@" + currentUser.getScreenName());
 		
 		tvCurrentCharacterCount = (TextView) findViewById(R.id.tvCurrentCharacterCount);
 		
@@ -93,8 +83,9 @@ public class ComposeTweetActivity extends Activity {
 		TwitterClientApp.getRestClient().postTweet(body, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject JSONTweet) {
+				Tweet tweet = Tweet.fromJson(JSONTweet);
 				Intent data = new Intent();
-				data.putExtra("tweet", JSONTweet.toString());
+				data.putExtra("tweet", tweet);
 				setResult(RESULT_OK, data);
 				Log.d("DEBUG", JSONTweet.toString());
 				finish();
