@@ -11,5 +11,11 @@
     <string name="cancel">Cancel</string>
     <string name="tweet">Tweet</string>
     <string name="compose_tweet">Compose Tweet</string>
+    <string name="profile">Profile</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="name">Name</string>
+    <string name="tagline">Tagline</string>
+    <string name="followers">5 Followers</string>
+    <string name="following">5 Following</string>
 
 </resources>

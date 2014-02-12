@@ -15,6 +15,7 @@ public class User implements Serializable {
 	private String mScreenName;
 	private String mProfileImageUrl;
 	private String mProfileBackgroundImageUrl;
+	private String mTagline;
 	
 	public String getName() {
 		return mName;
@@ -48,6 +49,10 @@ public class User implements Serializable {
 		return mNumFriends;
 	}
 	
+	public String getTagline() {
+		return mTagline;
+	}
+	
 	public static User fromJson(JSONObject json) {
 		User u = new User();
 		
@@ -60,6 +65,7 @@ public class User implements Serializable {
 			u.mNumTweets = json.getInt("statuses_count");
 			u.mNumFollowers = json.getInt("followers_count");
 			u.mNumFriends = json.getInt("friends_count");
+			u.mTagline = json.getString("description");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

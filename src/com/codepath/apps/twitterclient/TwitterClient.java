@@ -37,6 +37,21 @@ public class TwitterClient extends OAuthBaseClient {
     	client.get(url, null, handler);
     }
     
+    public void getHomeTimeline(AsyncHttpResponseHandler handler, String urlAppend) {
+    	String url = getApiUrl("statuses/home_timeline.json" + urlAppend);
+    	client.get(url, null, handler);
+    }
+    
+    public void getMentions(AsyncHttpResponseHandler handler) {
+    	String url = getApiUrl("statuses/mentions_timeline.json");
+    	client.get(url, null, handler);
+    }
+    
+    public void getMentions(AsyncHttpResponseHandler handler, String urlAppend) {
+    	String url = getApiUrl("statuses/mentions_timeline.json" + urlAppend);
+    	client.get(url, null, handler);
+    }
+    
     public void postTweet(String body, AsyncHttpResponseHandler handler) {
     	String apiUrl = getApiUrl("statuses/update.json");
     	RequestParams params = new RequestParams();
@@ -49,16 +64,25 @@ public class TwitterClient extends OAuthBaseClient {
     	client.get(url, null, handler);
     }*/
     
-    public void getHomeTimelineNextSet(AsyncHttpResponseHandler handler, long lastId) {
-    	String url = getApiUrl("statuses/home_timeline.json?max_id=" + lastId);
-    	client.get(url, null, handler);
-    }
-    
     public void getUserCredentials(AsyncHttpResponseHandler handler) {
     	String url = getApiUrl("account/verify_credentials.json");
     	client.get(url, null, handler);
     }
     
+    public void getUserTimeline(AsyncHttpResponseHandler handler) {
+    	String url = getApiUrl("statuses/user_timeline.json");
+    	client.get(url, null, handler);
+    }
+    
+    public void getUserTimeline(AsyncHttpResponseHandler handler, String urlAppend) {
+    	String url = getApiUrl("statuses/user_timeline.json" + urlAppend);
+    	client.get(url, null, handler);
+    }
+    
+    public void getUser(AsyncHttpResponseHandler handler, String urlAppend) {
+    	String url = getApiUrl("users/show.json" + urlAppend);
+    	client.get(url, null, handler);
+    }
     // CHANGE THIS
     // DEFINE METHODS for different API endpoints here
     public void getInterestingnessList(AsyncHttpResponseHandler handler) {
