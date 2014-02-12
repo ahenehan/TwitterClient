@@ -41,7 +41,7 @@ public abstract class TweetsListFragment extends Fragment {
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {
 			@Override
 			public void onLoadMore(int page, int totalItemsCount) {
-				customLoadDataFromApi(tweets.get(tweets.size() - 1).getId() - 1);				
+				customLoadDataFromApi(tweetsAdapter.getItem(tweetsAdapter.getCount()-1).getId() - 1);//tweets.get(tweets.size() - 1).getId() - 1);				
 			}
 		});
 		//lvTweets.setOnItemClickListener(listener)
@@ -49,13 +49,17 @@ public abstract class TweetsListFragment extends Fragment {
 	
 	protected void onSuccessfulResponse(JSONArray jsonTweets) {
 		ArrayList<Tweet> moreTweets = Tweet.fromJson(jsonTweets);
-		tweets.addAll(moreTweets);
+		//tweets.addAll(moreTweets);
 		tweetsAdapter.addAll(moreTweets);
 		Log.d("DEBUG", jsonTweets.toString());
 	}
 	
 	public TweetsAdapter getAdapter() {
 		return tweetsAdapter;
+	}
+	
+	public ArrayList<Tweet> getTweets() {
+		return tweets;
 	}
 	
 	abstract void customLoadDataFromApi(long lastId);

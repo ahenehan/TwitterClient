@@ -83,9 +83,9 @@ public class ComposeTweetActivity extends Activity {
 		TwitterClientApp.getRestClient().postTweet(body, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject JSONTweet) {
-				//Tweet tweet = Tweet.fromJson(JSONTweet);
+				Tweet tweet = Tweet.fromJson(JSONTweet);
 				Intent data = new Intent();
-				//data.putExtra("tweet", tweet);
+				data.putExtra("tweet", tweet);
 				setResult(RESULT_OK, data);
 				Log.d("DEBUG", JSONTweet.toString());
 				finish();

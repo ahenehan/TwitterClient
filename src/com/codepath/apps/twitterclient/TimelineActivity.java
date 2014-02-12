@@ -32,7 +32,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	private final int REQUEST_CODE = 20;
 	
 	private User currentUser;
-
+	private HomeTimelineFragment h;
+	private MentionsFragment m;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,10 +103,13 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
     		Toast.makeText(getApplicationContext(), "Tweet posted", Toast.LENGTH_SHORT).show();
-    		//Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
-			//tweets.add(0, tweet);
-			//tweetsAdapter.insert(tweet, 0);
-			//tweetsAdapter.notifyDataSetChanged();
+    		
+    		Tweet tweet = (Tweet) data.getSerializableExtra("tweet");
+			//h.getTweets().add(0, tweet);
+    		if (h != null) {
+    			h.getAdapter().insert(tweet, 0);
+    		}
+    			//tweetsAdapter.notifyDataSetChanged();
     	}
     }
 
@@ -118,10 +122,12 @@ public class TimelineActivity extends FragmentActivity implements TabListener {
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		FragmentManager manager = getSupportFragmentManager();
 		android.support.v4.app.FragmentTransaction fts = manager.beginTransaction();
+		h = new HomeTimelineFragment();
+		m = new MentionsFragment();
 		if (tab.getTag() == "HomeTimelineFragment") {
-			fts.replace(R.id.frame_container, new HomeTimelineFragment());
+			fts.replace(R.id.frame_container, h);
 		} else {
-			fts.replace(R.id.frame_container, new MentionsFragment());
+			fts.replace(R.id.frame_container, m);
 		}
 		fts.commit();
 	}
